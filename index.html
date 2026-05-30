@@ -680,6 +680,32 @@
 
   .retry-btn:hover { background: var(--red-dark); }
 
+  .result-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+
+  .next-lesson-btn {
+    background: var(--correct);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 26px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: background 0.15s;
+  }
+
+  .next-lesson-btn:hover { background: #145A32; }
+
+  .finish-btn { background: var(--gold) !important; color: var(--ink) !important; }
+  .finish-btn:hover { background: #b8960b !important; }
+
   /* RATING */
   .rating-section {
     margin-top: 2rem;
@@ -1436,6 +1462,12 @@ let currentQuiz = null;
 // ─── NAVIGATION ─────────────────────────────────────────────────────────────
 
 function showPage(id) {
+  // Stop all iframes (video) before switching page
+  document.querySelectorAll('iframe').forEach(iframe => {
+    const src = iframe.src;
+    iframe.src = '';
+    iframe.src = src;
+  });
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -1443,11 +1475,22 @@ function showPage(id) {
 }
 
 function showLesson(n) {
+  // Stop any playing video first
+  document.querySelectorAll('iframe').forEach(iframe => {
+    const src = iframe.src;
+    iframe.src = '';
+    iframe.src = src;
+  });
   showPage('lesson' + n);
   currentQuiz = n;
   if (!document.getElementById('quiz' + n).dataset.built) {
     buildQuiz(n);
   }
+}
+
+function showCongrats() {
+  document.getElementById('congrats-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
 // ─── BUILD QUIZ ──────────────────────────────────────────────────────────────
@@ -1500,7 +1543,13 @@ function buildQuiz(n) {
       <div class="result-score" id="qscore-${n}">0/${total}</div>
       <div class="result-label">правильных ответов</div>
       <div class="result-msg" id="qmsg-${n}"></div>
-      <button class="retry-btn" onclick="retryQuiz(${n})">Попробовать снова</button>
+      <div class="result-actions">
+        <button class="retry-btn" onclick="retryQuiz(${n})">Попробовать снова</button>
+        ${n < 3
+          ? `<button class="next-lesson-btn" onclick="showLesson(${n+1})">Следующий урок →</button>`
+          : `<button class="next-lesson-btn finish-btn" onclick="showCongrats()">🎓 Завершить курс</button>`
+        }
+      </div>
       <div class="rating-section">
         <div class="rating-label">Был ли полезен этот курс?</div>
         <div class="stars" id="stars-${n}">
@@ -1586,7 +1635,6 @@ function updateNav(n) {
   const total = quizzes[n].questions.length;
   const s = state[n];
   const cur = s.current;
-  const answered = Object.keys(s.submitted).length;
 
   document.getElementById(`q${n}-progress`).textContent = `Вопрос ${cur+1} из ${total}`;
   document.getElementById(`q${n}-fill`).style.width = `${(cur+1)/total*100}%`;
@@ -1594,18 +1642,10 @@ function updateNav(n) {
 
   const nextBtn = document.getElementById(`qnext-${n}`);
   if (cur === total - 1) {
-    if (answered === total) {
-      nextBtn.textContent = 'Результат →';
-      nextBtn.onclick = () => showResult(n);
-    } else {
-      nextBtn.textContent = 'Ответьте на вопрос';
-      nextBtn.disabled = !s.submitted[cur];
-      if (s.submitted[cur]) {
-        nextBtn.textContent = 'Результат →';
-        nextBtn.onclick = () => showResult(n);
-        nextBtn.disabled = false;
-      }
-    }
+    // Last question — show Result button, enabled as soon as this question is answered
+    nextBtn.textContent = 'Результат →';
+    nextBtn.onclick = () => showResult(n);
+    nextBtn.disabled = !s.submitted[cur];
   } else {
     nextBtn.textContent = 'Вперёд →';
     nextBtn.onclick = () => moveQ(n, 1);
@@ -1754,6 +1794,27 @@ document.addEventListener('click', function(e) {
       <div class="success-icon">🎉</div>
       <h3>Анкета отправлена!</h3>
       <p>Богдан свяжется с вами в ближайшее время. Ждите сообщения!</p>
+    </div>
+  </div>
+</div>
+
+<!-- CONGRATS MODAL -->
+<div class="modal-overlay" id="congrats-modal">
+  <div class="modal" style="text-align:center;">
+    <div style="font-size:3.5rem; margin-bottom:1rem;">🎓</div>
+    <div class="modal-title" style="text-align:center;">Поздравляем!</div>
+    <p style="color:var(--ink-soft); margin: 1rem 0 1.5rem; line-height:1.7;">
+      Вы прошли все три урока курса и успешно выполнили тесты.<br>
+      Теперь вы готовы к изучению китайского языка! 🇨🇳<br><br>
+      Вы узнали, как устроен язык, что такое иероглиф и тон — это отличная база для дальнейшего пути. Желаю успехов! 加油！
+    </p>
+    <div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
+      <button class="next-lesson-btn" onclick="document.getElementById('congrats-modal').classList.remove('open'); document.body.style.overflow='';">
+        Вернуться к курсу
+      </button>
+      <button class="next-lesson-btn" style="background:var(--red);" onclick="document.getElementById('congrats-modal').classList.remove('open'); document.body.style.overflow=''; showPage('home'); setTimeout(()=>document.querySelector('.contacts-section').scrollIntoView({behavior:'smooth'}), 300);">
+        Записаться на занятия →
+      </button>
     </div>
   </div>
 </div>
