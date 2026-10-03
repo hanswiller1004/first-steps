@@ -1245,6 +1245,220 @@
     .contact-btn { width: 100%; max-width: 280px; justify-content: center; }
     .modal { padding: 1.5rem 1.25rem; }
   }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    background: #0a1628;
+    color: rgba(255,255,255,0.55);
+    font-size: 0.78rem;
+    padding: 2rem;
+    line-height: 1.8;
+  }
+
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .footer-block h4 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.6rem;
+  }
+
+  .footer-block a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .footer-block a:hover { color: #fff; }
+
+  .footer-bottom {
+    max-width: 900px;
+    margin: 1.5rem auto 0;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.3);
+  }
+
+  @media (max-width: 600px) {
+    .footer-inner { grid-template-columns: 1fr; gap: 1rem; }
+  }
+
+  /* ── COOKIE BANNER ── */
+  .cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #0a1628;
+    color: rgba(255,255,255,0.85);
+    padding: 1.25rem 1.5rem;
+    z-index: 9999;
+    display: none;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+  }
+
+  .cookie-banner.show { display: block; }
+
+  .cookie-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .cookie-text {
+    flex: 1;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    min-width: 240px;
+  }
+
+  .cookie-text a {
+    color: #97B4DE;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .cookie-btns {
+    display: flex;
+    gap: 0.6rem;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  .cookie-accept {
+    background: #263A98;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    padding: 8px 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    white-space: nowrap;
+  }
+
+  .cookie-accept:hover { background: #1d2d80; }
+
+  .cookie-necessary {
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 7px;
+    padding: 8px 16px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    white-space: nowrap;
+  }
+
+  .cookie-necessary:hover { color: #fff; border-color: rgba(255,255,255,0.5); }
+
+  /* ── POLICY MODAL ── */
+  .policy-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 600;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem 1rem;
+    overflow-y: auto;
+  }
+
+  .policy-modal-overlay.open { display: flex; }
+
+  .policy-modal {
+    background: var(--paper);
+    border-radius: 16px;
+    max-width: 720px;
+    width: 100%;
+    padding: 2.5rem;
+    position: relative;
+    margin: auto;
+  }
+
+  .policy-modal h2 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  .policy-modal h3 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 0.85rem;
+    color: var(--ink);
+    margin: 1.25rem 0 0.4rem;
+  }
+
+  .policy-modal p, .policy-modal li {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    line-height: 1.75;
+  }
+
+  .policy-modal ul { padding-left: 1.25rem; margin: 0.4rem 0; }
+  .policy-modal li { margin-bottom: 0.3rem; }
+
+  .policy-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: var(--muted);
+    cursor: pointer;
+  }
+
+  /* ── FORM CHECKBOXES ── */
+  .form-consent {
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .consent-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .consent-row input[type="checkbox"] {
+    flex-shrink: 0;
+    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--blue-main);
+    cursor: pointer;
+  }
+
+  .consent-row a {
+    color: var(--blue-main);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
 </style>
 </head>
 <body>
@@ -2022,6 +2236,16 @@ document.addEventListener('click', function(e) {
         <textarea class="form-textarea" name="contact" placeholder="Например: @telegram_username, или WhatsApp +7 999 000-00-00, или email" required></textarea>
       </div>
 
+      <div class="form-consent">
+        <label class="consent-row">
+          <input type="checkbox" id="consent-pd" required>
+          <span>Я даю согласие на обработку моих персональных данных в соответствии с <a onclick="openPolicy('pd')">Политикой обработки персональных данных</a></span>
+        </label>
+        <label class="consent-row">
+          <input type="checkbox" id="consent-offer" required>
+          <span>Я ознакомлен(-а) с условиями оказания услуг</span>
+        </label>
+      </div>
       <button type="submit" class="form-submit">Отправить анкету →</button>
     </form>
 
@@ -2142,6 +2366,52 @@ document.addEventListener('click', function(e) {
         Записаться на занятия →
       </button>
     </div>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-block">
+      <h4>Исполнитель</h4>
+      <p>
+        Морозов Богдан Станиславович<br>
+        ИНН: 231002255280<br>
+        Эл. почта: <a href="mailto:bo.morozov.cn@gmail.com">bo.morozov.cn@gmail.com</a>
+      </p>
+    </div>
+    <div class="footer-block">
+      <h4>Документы</h4>
+      <p>
+        <a onclick="openPolicy('pd')">Политика обработки персональных данных</a><br>
+        <a onclick="openPolicy('cookie')">Политика использования файлов cookie</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2024–2026 Морозов Богдан Станиславович. Все права защищены. Сайт не является публичной офертой.
+  </div>
+</footer>
+
+<!-- COOKIE BANNER -->
+<div class="cookie-banner" id="cookie-banner">
+  <div class="cookie-inner">
+    <div class="cookie-text">
+      Мы используем файлы cookie для корректной работы сайта и анализа трафика. Нажимая «Принять все», вы соглашаетесь с нашей <a onclick="openPolicy('cookie')">Политикой использования cookie</a>.
+    </div>
+    <div class="cookie-btns">
+      <button class="cookie-accept" onclick="acceptCookies()">Принять все</button>
+      <button class="cookie-necessary" onclick="acceptNecessary()">Только необходимые</button>
+    </div>
+  </div>
+</div>
+
+<!-- POLICY MODAL -->
+<div class="policy-modal-overlay" id="policy-modal">
+  <div class="policy-modal">
+    <button class="policy-close" onclick="closePolicy()">✕</button>
+    <div id="policy-content"></div>
   </div>
 </div>
 
